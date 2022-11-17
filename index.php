@@ -18,25 +18,28 @@ require 'controllers/PurchasesController.php';
 
 //Generar la respuesta según el controlador solicitado y la acción
 $response = "";
-if(isset($_GET['controller'])){
-    $controller = ucfirst($_GET['controller']).'Controller';
-    if(class_exists($controller)){
-    	$controllerObject = new $controller();
-		if(isset($_GET['action'])){
-			$action = $_GET['action'];
-			if(method_exists($controllerObject, $action)){
-				$response = $controllerObject::$action();
-			}
-		}else{
-			redirect();
-		}
-    }else{
-    	redirect();
-    }
+
+//Acciones por defecto en caso de que no se especifiquen
+if(!isset($_GET['controller'])){
+	$_GET['controller'] = "articles";
 }
-//Si no se especifica nada o es incorrecto, carga por defecto la portada
+
+if(!isset($_GET['action'])){
+	$_GET['action'] = "index";
+}
+
+
+$controller = ucfirst($_GET['controller']).'Controller';
+if(class_exists($controller)){
+	$controllerObject = new $controller();
+	$action = $_GET['action'];
+	if(method_exists($controllerObject, $action)){
+		$response = $controllerObject::$action();
+	}
+}
+//Si es algo incorrecto, carga por defecto la portada
 if(empty($response)){
-	$response = ArticlesController::index();
+	redirect();
 }
 
 echo $response;

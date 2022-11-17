@@ -19,5 +19,6 @@
     # (.*) quiere decir punto cualquier cosa, por tanto 
     # El primer (.*) implica introducir el contenido de controller ($1) 
     # El segundo (.*) implica introducir el contenido de action ($2)
+    RewriteRule ^(.*) ?controller=$1
     RewriteRule ^(.*)/(.*) ?controller=$1&action=$2
 </IfModule>
