@@ -8,18 +8,9 @@ class PurchasesController{
 		$purchases = [];
 
 		return $GLOBALS["twig"]->render(
-            'purchases/list.twig', 
+            'purchases/index.twig', 
             ['purchases' => $purchases]
         );
 	}
 
-	public static function cart(){
-
-		$articles = [];
-
-		return $GLOBALS["twig"]->render(
-            'purchases/cart.twig', 
-            ['articles' => $articles]
-        );
-	}
 }

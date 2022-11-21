@@ -13,6 +13,7 @@ $twig->addGlobal("URL",URL);
 require 'configs/database.php';
 require 'controllers/UsersController.php';
 require 'controllers/ArticlesController.php';
+require 'controllers/CartController.php';
 require 'controllers/PurchasesController.php';
 
 
@@ -34,6 +35,10 @@ if(isset($_GET['path'])){
 		}
 	}
 }
+
+//Se le otorgan a Twig las variables de las rutas para que pinte el menú
+$twig->addGlobal("CONTROLLER",$controller);
+$twig->addGlobal("ACTION",$action);
 
 $controller = ucfirst($controller).'Controller';
 if(class_exists($controller)){

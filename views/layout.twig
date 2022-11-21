@@ -10,20 +10,20 @@
 	<header class="p-3 text-bg-dark">
 	    <nav class="navbar navbar-dark bg-dark navbar-expand-md">
 		<div class="container-fluid">
-		    <a class="navbar-brand" href="#">Navbar</a>
+		    <a class="navbar-brand" href="{{URL}}">TT</a>
 		    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		      <span class="navbar-toggler-icon"></span>
 		    </button>
 		    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 		      	<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 			        <li class="nav-item">
-			          <a class="nav-link active" aria-current="page" href="#">Catálogo</a>
+			          <a class="nav-link {% if CONTROLLER=='articles' and ACTION=='index' %}active{% endif %}"href="{{URL}}/articles">Catálogo</a>
 			        </li>
 			        <li class="nav-item">
-			          <a class="nav-link" href="#">Carrito <span class="badge text-bg-primary">4</span></a>
+			          <a class="nav-link {% if CONTROLLER=='cart' and ACTION=='index' %}active{% endif %}" href="{{URL}}/cart">Carrito {% if cartCount %}<span class="badge text-bg-primary">{{cartCount}}</span>{% endif %}</a>
 			        </li>
 			        <li class="nav-item">
-			          <a class="nav-link" href="#">Mis Compras</a>
+			          <a class="nav-link {% if CONTROLLER=='purchases' and ACTION=='index' %}active{% endif %}" href="{{URL}}/purchases">Mis Compras</a>
 			        </li>
 		      	</ul>
 		      	<div>
