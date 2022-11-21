@@ -3,38 +3,36 @@
 {% block title %}Catálogo{% endblock %}
 
 {% block content %}
-    <h1 class="text-center my-3">Las mejores guitarras aquí</h1>
+    <h1 class="text-center my-3">Tienda Tiendas</h1>
 
-    <h3 class="mt-5 mb-3 text-center">Productos destacados</h3>
+    <h3 class="mt-5 mb-3 text-center">Tiendas destacadas</h3>
     <div class="w-75 mx-auto">
-	    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+	    <div id="sliderHighlits" class="carousel slide" data-bs-ride="carousel">
 		  <div class="carousel-indicators">
-		    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-		    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-		    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+		  	{% set index = 0 %}
+		  	{% for article in articles %}
+		  		{% if article.highlight == 1 %}
+		    		<button type="button" data-bs-target="#sliderHighlits" data-bs-slide-to="{{index}}" {% if index == 0 %}class="active"{% endif %} ></button>
+		  			{% set index = index+1 %}
+		  		{% endif %}
+		    {% endfor %}
 		  </div>
-		  <div class="carousel-inner">
-		    <div class="carousel-item active">
-		      <img src="{{URL}}/resources/images/2022-11-07.png" class="d-block w-100" alt="...">
-		      <div class="carousel-caption d-none d-md-block">
-		        <h5>First slide label</h5>
-		        <p>Some representative placeholder content for the first slide.</p>
-		      </div>
-		    </div>
-		    <div class="carousel-item">
-		      <img src="{{URL}}/resources/images/2022-11-07.png" class="d-block w-100" alt="...">
-		      <div class="carousel-caption d-none d-md-block">
-		        <h5>Second slide label</h5>
-		        <p>Some representative placeholder content for the second slide.</p>
-		      </div>
-		    </div>
-		    <div class="carousel-item">
-		      <img src="{{URL}}/resources/images/2022-11-07.png" class="d-block w-100" alt="...">
-		      <div class="carousel-caption d-none d-md-block">
-		        <h5>Third slide label</h5>
-		        <p>Some representative placeholder content for the third slide.</p>
-		      </div>
-		    </div>
+		  <div class="carousel-inner bg-dark">
+		  	{% set index = 0 %}
+		  	{% for article in articles %}
+		  		{% if article.highlight == 1 %}
+				    <div class="carousel-item {% if index == 0 %}active{% endif %}">
+				    	<a href="{{URL}}/articles/details/{{article.id}}">
+					      <img src="{{URL}}/resources/images/{{article.picture}}" class="d-block mx-auto" height="400">
+					      <div class="carousel-caption d-md-block">
+					        <h5>{{article.title}}</h5>
+					        <p>{{article.price}} €</p>
+					      </div>
+					    </a>
+				    </div>
+					{% set index = index+1 %}
+				{% endif %}
+			{% endfor %}
 		  </div>
 		  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
 		    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -47,157 +45,34 @@
 		</div>
 	</div>
 
-	<h2 class="my-3 ps-2">Catálogo</h2>
+	<h2 class="my-4 ps-2 text-center">Catálogo</h2>
     <div class="py-5 bg-light">
 	    <div class="container">
 
 	      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-	        <div class="col">
-	          <div class="card shadow-sm">
-	            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: صورة مصغرة" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">صورة مصغرة</text></svg>
+	      	{% for article in articles %}
+		        <div class="col">
+		          <div class="card shadow-sm">
+		            <img class="w-100" src="{{URL}}/resources/images/{{article.picture}}">
 
-	            <div class="card-body">
-	              <p class="card-text">هذه بطاقة أوسع مع نص داعم أدناه كمقدمة طبيعية لمحتوى إضافي. هذا المحتوى أطول قليلاً.</p>
-	              <div class="d-flex justify-content-between align-items-center">
-	                <div class="btn-group">
-	                  <button type="button" class="btn btn-sm btn-outline-secondary">عرض</button>
-	                  <button type="button" class="btn btn-sm btn-outline-secondary">تعديل</button>
-	                </div>
-	                <small class="text-muted">9 دقائق</small>
-	              </div>
-	            </div>
-	          </div>
-	        </div>
-	        <div class="col">
-	          <div class="card shadow-sm">
-	            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: صورة مصغرة" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">صورة مصغرة</text></svg>
+		            <div class="card-body">
+		              <h5 class="card-title">{{article.title}}</h5>
+		              <div class="d-flex justify-content-between align-items-center">
+		                <div class="btn-group">
+		                  	<a href="{{URL}}/articles/details/{{article.id}}">
+		                  		<button type="button" class="btn btn-sm btn-outline-secondary">Detalles</button>
+		                  	</a>
+		                  	<a href="{{URL}}/cart/add/{{article.id}}">
+		                  		<button type="button" class="btn btn-sm btn-outline-success">Agregar al carro</button>
+		                  	</a>
 
-	            <div class="card-body">
-	              <p class="card-text">هذه بطاقة أوسع مع نص داعم أدناه كمقدمة طبيعية لمحتوى إضافي. هذا المحتوى أطول قليلاً.</p>
-	              <div class="d-flex justify-content-between align-items-center">
-	                <div class="btn-group">
-	                  <button type="button" class="btn btn-sm btn-outline-secondary">عرض</button>
-	                  <button type="button" class="btn btn-sm btn-outline-secondary">تعديل</button>
-	                </div>
-	                <small class="text-muted">9 دقائق</small>
-	              </div>
-	            </div>
-	          </div>
-	        </div>
-	        <div class="col">
-	          <div class="card shadow-sm">
-	            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: صورة مصغرة" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">صورة مصغرة</text></svg>
-
-	            <div class="card-body">
-	              <p class="card-text">هذه بطاقة أوسع مع نص داعم أدناه كمقدمة طبيعية لمحتوى إضافي. هذا المحتوى أطول قليلاً.</p>
-	              <div class="d-flex justify-content-between align-items-center">
-	                <div class="btn-group">
-	                  <button type="button" class="btn btn-sm btn-outline-secondary">عرض</button>
-	                  <button type="button" class="btn btn-sm btn-outline-secondary">تعديل</button>
-	                </div>
-	                <small class="text-muted">9 دقائق</small>
-	              </div>
-	            </div>
-	          </div>
-	        </div>
-
-	        <div class="col">
-	          <div class="card shadow-sm">
-	            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: صورة مصغرة" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">صورة مصغرة</text></svg>
-
-	            <div class="card-body">
-	              <p class="card-text">هذه بطاقة أوسع مع نص داعم أدناه كمقدمة طبيعية لمحتوى إضافي. هذا المحتوى أطول قليلاً.</p>
-	              <div class="d-flex justify-content-between align-items-center">
-	                <div class="btn-group">
-	                  <button type="button" class="btn btn-sm btn-outline-secondary">عرض</button>
-	                  <button type="button" class="btn btn-sm btn-outline-secondary">تعديل</button>
-	                </div>
-	                <small class="text-muted">9 دقائق</small>
-	              </div>
-	            </div>
-	          </div>
-	        </div>
-	        <div class="col">
-	          <div class="card shadow-sm">
-	            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: صورة مصغرة" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">صورة مصغرة</text></svg>
-
-	            <div class="card-body">
-	              <p class="card-text">هذه بطاقة أوسع مع نص داعم أدناه كمقدمة طبيعية لمحتوى إضافي. هذا المحتوى أطول قليلاً.</p>
-	              <div class="d-flex justify-content-between align-items-center">
-	                <div class="btn-group">
-	                  <button type="button" class="btn btn-sm btn-outline-secondary">عرض</button>
-	                  <button type="button" class="btn btn-sm btn-outline-secondary">تعديل</button>
-	                </div>
-	                <small class="text-muted">9 دقائق</small>
-	              </div>
-	            </div>
-	          </div>
-	        </div>
-	        <div class="col">
-	          <div class="card shadow-sm">
-	            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: صورة مصغرة" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">صورة مصغرة</text></svg>
-
-	            <div class="card-body">
-	              <p class="card-text">هذه بطاقة أوسع مع نص داعم أدناه كمقدمة طبيعية لمحتوى إضافي. هذا المحتوى أطول قليلاً.</p>
-	              <div class="d-flex justify-content-between align-items-center">
-	                <div class="btn-group">
-	                  <button type="button" class="btn btn-sm btn-outline-secondary">عرض</button>
-	                  <button type="button" class="btn btn-sm btn-outline-secondary">تعديل</button>
-	                </div>
-	                <small class="text-muted">9 دقائق</small>
-	              </div>
-	            </div>
-	          </div>
-	        </div>
-
-	        <div class="col">
-	          <div class="card shadow-sm">
-	            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: صورة مصغرة" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">صورة مصغرة</text></svg>
-
-	            <div class="card-body">
-	              <p class="card-text">هذه بطاقة أوسع مع نص داعم أدناه كمقدمة طبيعية لمحتوى إضافي. هذا المحتوى أطول قليلاً.</p>
-	              <div class="d-flex justify-content-between align-items-center">
-	                <div class="btn-group">
-	                  <button type="button" class="btn btn-sm btn-outline-secondary">عرض</button>
-	                  <button type="button" class="btn btn-sm btn-outline-secondary">تعديل</button>
-	                </div>
-	                <small class="text-muted">9 دقائق</small>
-	              </div>
-	            </div>
-	          </div>
-	        </div>
-	        <div class="col">
-	          <div class="card shadow-sm">
-	            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: صورة مصغرة" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">صورة مصغرة</text></svg>
-
-	            <div class="card-body">
-	              <p class="card-text">هذه بطاقة أوسع مع نص داعم أدناه كمقدمة طبيعية لمحتوى إضافي. هذا المحتوى أطول قليلاً.</p>
-	              <div class="d-flex justify-content-between align-items-center">
-	                <div class="btn-group">
-	                  <button type="button" class="btn btn-sm btn-outline-secondary">عرض</button>
-	                  <button type="button" class="btn btn-sm btn-outline-secondary">تعديل</button>
-	                </div>
-	                <small class="text-muted">9 دقائق</small>
-	              </div>
-	            </div>
-	          </div>
-	        </div>
-	        <div class="col">
-	          <div class="card shadow-sm">
-	            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: صورة مصغرة" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">صورة مصغرة</text></svg>
-
-	            <div class="card-body">
-	              <p class="card-text">هذه بطاقة أوسع مع نص داعم أدناه كمقدمة طبيعية لمحتوى إضافي. هذا المحتوى أطول قليلاً.</p>
-	              <div class="d-flex justify-content-between align-items-center">
-	                <div class="btn-group">
-	                  <button type="button" class="btn btn-sm btn-outline-secondary">عرض</button>
-	                  <button type="button" class="btn btn-sm btn-outline-secondary">تعديل</button>
-	                </div>
-	                <small class="text-muted">9 دقائق</small>
-	              </div>
-	            </div>
-	          </div>
-	        </div>
+		                </div>
+		                <small class="text-muted">{{article.price}} €</small>
+		              </div>
+		            </div>
+		          </div>
+		        </div>
+		    {% endfor %}
 	      </div>
 	    </div>
 	</div>

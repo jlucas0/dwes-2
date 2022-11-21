@@ -1,5 +1,5 @@
 <?php
-require 'models/Purchase.php';
+require_once 'models/Purchase.php';
 
 class PurchasesController{
 
