@@ -3,20 +3,21 @@
 {% block title %}Guitarra 1{% endblock %}
 
 {% block content %}
-    <h1 class="text-center my-3">Guitarra 1</h1>
-    <div class="container">
+    <h1 class="text-center my-3">{{article.title}}</h1>
+    <div class="container mb-4">
         <div class="row">
             <div class="col-12 col-sm-4 col-md-6">
-                <img src="{{URL}}/resources/images/2022-11-07.png" style="width:100%">
+                <img src="{{URL}}/resources/images/{{article.picture}}" style="width:100%">
             </div>
             <div class="col-12 col-sm-8 col-md-6">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                <button class="btn btn-success float-end">Añadir al carro</button>
+                <p>{{article.description}}</p>
+                <p>{{article.price}} €</p>
+                <a href="{{URL}}" class="float-start">
+                    <button class="btn btn-secondary">Volver</button>
+                </a>
+                <a href="{{URL}}/cart/add/{{article.id}}" class="float-end">
+                    <button class="btn btn-success">Añadir al carro</button>
+                </a>
             </div>
         </div>
     </div>

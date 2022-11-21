@@ -23,6 +23,7 @@ $response = "";
 //Acciones por defecto en caso de que no se especifiquen
 $controller = "articles";
 $action = "index";
+$param = null;
 
 //Lectura de los parámetros de ruta, que el htaccess incluye en el valor path
 if(isset($_GET['path'])){
@@ -32,6 +33,9 @@ if(isset($_GET['path'])){
 		$controller = $path[0];
 		if(isset($path[1])){
 			$action = $path[1];
+			if(isset($path[2])){
+				$param = $path[2];
+			}
 		}
 	}
 }
@@ -44,7 +48,7 @@ $controller = ucfirst($controller).'Controller';
 if(class_exists($controller)){
 	$controllerObject = new $controller();
 	if(method_exists($controllerObject, $action)){
-		$response = $controllerObject::$action();
+		$response = $controllerObject::$action($param);
 	}
 }
 //Si es algo incorrecto, carga por defecto la portada

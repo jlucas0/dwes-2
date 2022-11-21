@@ -29,7 +29,23 @@ class Article implements Model{
 	}
 
 	public static function find($id){
+		$db = Database::connect();
 
+		$result = $db->query("SELECT * FROM articles WHERE id=$id");
+
+		$article = null;
+
+		if($row = $result->fetch_object()){
+			$article = new Article();
+			$article->setId($row->id);
+			$article->setTitle($row->title);
+			$article->setPrice($row->price);
+			$article->setPicture($row->picture);
+			$article->setDescription($row->description);
+			$article->setHighlight($row->highlight);
+		}
+
+		return $article;
 	}
 
 	public function save(){

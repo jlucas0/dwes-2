@@ -12,10 +12,19 @@ class ArticlesController{
         );
 	}
 
-	public static function details(){
-		return $GLOBALS["twig"]->render(
-            'articles/details.twig'
-        );
+	public static function details($id){
+
+		//Obtener el artículo
+		$article = Article::find($id);
+
+		if($article){
+			return $GLOBALS["twig"]->render(
+	            'articles/details.twig',
+	            ['article' => $article]
+    	    );
+		}
+		header("HTTP/1.0 404 Not Found");
+		exit;
 	}
 
 }
