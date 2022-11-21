@@ -8,7 +8,7 @@
     #ErrorDocument 403 http://localhost/proyectos/2DAW-CLASE-PHP/templates/error/403.twig
 
     #ErrorDocument 500 http://localhost/proyectos/2DAW-CLASE-PHP/templates/error/500.twig
-    
+    RewriteRule ^(resources)($|/) - [L]
     
     # No voy a poder cargar un directorio (!-d) ni un fichero (!-f) cualquiera
     RewriteCond %{SCRIPT_FILENAME} !-d
@@ -19,6 +19,6 @@
     # (.*) quiere decir punto cualquier cosa, por tanto 
     # El primer (.*) implica introducir el contenido de controller ($1) 
     # El segundo (.*) implica introducir el contenido de action ($2)
-    RewriteRule ^(.*) ?controller=$1
-    RewriteRule ^(.*)/(.*) ?controller=$1&action=$2
+    
+    RewriteRule ^(.*)$ /php-dwes/index.php?path=$1 [NC,L,QSA]
 </IfModule>

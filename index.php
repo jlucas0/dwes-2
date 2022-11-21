@@ -20,19 +20,24 @@ require 'controllers/PurchasesController.php';
 $response = "";
 
 //Acciones por defecto en caso de que no se especifiquen
-if(!isset($_GET['controller'])){
-	$_GET['controller'] = "articles";
+$controller = "articles";
+$action = "index";
+
+//Lectura de los parámetros de ruta, que el htaccess incluye en el valor path
+if(isset($_GET['path'])){
+	$path = explode("/",$_GET['path']);
+
+	if(isset($path[0])){
+		$controller = $path[0];
+		if(isset($path[1])){
+			$action = $path[1];
+		}
+	}
 }
 
-if(!isset($_GET['action'])){
-	$_GET['action'] = "index";
-}
-
-
-$controller = ucfirst($_GET['controller']).'Controller';
+$controller = ucfirst($controller).'Controller';
 if(class_exists($controller)){
 	$controllerObject = new $controller();
-	$action = $_GET['action'];
 	if(method_exists($controllerObject, $action)){
 		$response = $controllerObject::$action();
 	}

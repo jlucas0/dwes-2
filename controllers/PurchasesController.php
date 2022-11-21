@@ -12,4 +12,14 @@ class PurchasesController{
             ['purchases' => $purchases]
         );
 	}
+
+	public static function cart(){
+
+		$articles = [];
+
+		return $GLOBALS["twig"]->render(
+            'purchases/cart.twig', 
+            ['articles' => $articles]
+        );
+	}
 }
