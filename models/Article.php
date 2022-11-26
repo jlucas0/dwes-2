@@ -24,7 +24,7 @@ class Article implements Model{
 			$article->setHighlight($row->highlight);
 			$data[] = $article;
 		}
-
+		Database::disconnect($db);
 		return $data;
 	}
 
@@ -44,7 +44,7 @@ class Article implements Model{
 			$article->setDescription($row->description);
 			$article->setHighlight($row->highlight);
 		}
-
+		Database::disconnect($db);
 		return $article;
 	}
 
@@ -96,7 +96,7 @@ class Article implements Model{
 		$this->description = $description;
 	}
 
-	public function getHighlight(){
+	public function isHighlight(){
 		return $this->highlight;
 	}
 

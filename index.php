@@ -16,6 +16,11 @@ require 'controllers/ArticlesController.php';
 require 'controllers/CartController.php';
 require 'controllers/PurchasesController.php';
 
+session_start();
+//Si hay usuario registrado, se le pasa a twig para que pinte los datos necesarios
+if(isset($_SESSION['auth'])){
+	$twig->addGlobal("USER",$_SESSION['auth']);
+}
 
 //Generar la respuesta según el controlador solicitado y la acción
 $response = "";

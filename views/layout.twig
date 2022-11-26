@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>{% block title %}{% endblock %} - GoodGuitars</title>
+	<title>{% block title %}{% endblock %} - TiendaTiendas</title>
 	<link rel="stylesheet" type="text/css" href="{{URL}}\resources\bootstrap-5.2.2-dist\css\bootstrap.min.css">
 </head>
 <body>
@@ -26,10 +26,17 @@
 			          <a class="nav-link {% if CONTROLLER=='purchases' and ACTION=='index' %}active{% endif %}" href="{{URL}}/purchases">Mis Compras</a>
 			        </li>
 		      	</ul>
-		      	<div>
-			      <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">Login</button>
-			      <button class="btn btn-warning">Registro</button>
-		    	</div>
+		      	{% if USER %}
+		      		<div>
+				      <span class="me-5">{{USER.name}}</span>
+				      <a href="{{URL}}/users/logout"><button class="btn btn-warning">Salir</button></a>
+			    	</div>
+		      	{% else %}
+			      	<div>
+				      <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">Login</button>
+				      <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#registerModal">Registro</button>
+			    	</div>
+			    {% endif %}
 		    </div>
 		  </div>
 		</nav>
@@ -61,6 +68,73 @@
 	    </div>
 	  </div>
 	</div>
+	<div class="modal fade" id="registerModal" tabindex="-1">
+	  <div class="modal-dialog modal-dialog-centered">
+	    <div class="modal-content">
+	      	<div class="modal-header">
+	        	<h1 class="modal-title fs-5">Registro</h1>
+	        	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      	</div>
+	      	<form method="POST" id="registerForm">
+		      	<div class="modal-body">
+		      		<div class="alert alert-danger" role="alert" style="display:none"></div>
+		      		<div class="mb-3">
+				    	<label for="nameRegister" class="form-label">Nombre</label>
+				    	<input name="name" type="text" class="form-control" id="nameRegister" required>
+				    	<div class="invalid-feedback" id="nameRegisterFeedback" style="display:none"></div>
+				  	</div>
+			      	<div class="mb-3">
+				   		<label for="emailRegister" class="form-label">Email</label>
+				    	<input name="email" type="email" class="form-control" id="emailRegister" required>
+				    	<div class="invalid-feedback" id="emailRegisterFeedback" style="display:none"></div>
+				  	</div>
+				  	<div class="mb-3">
+				    	<label for="passwordRegister" class="form-label">Password</label>
+				    	<input name="password" type="password" class="form-control" id="passwordRegister" required>
+				    	<div class="invalid-feedback" id="passwordRegisterFeedback" style="display:none"></div>
+				  	</div>
+			    </div>
+		      	<div class="modal-footer">
+			        <button class="btn btn-primary" type="submit">Registrarse</button>
+			    </div>
+			</form>
+	    </div>
+	  </div>
+	</div>
 	<script type="text/javascript" src="{{URL}}/resources/bootstrap-5.2.2-dist/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="{{URL}}/resources/jquery-3.6.1.min.js"></script>
+	<script type="text/javascript">
+
+		registerForm.onsubmit = function(e){
+			e.preventDefault();
+			$.ajax({
+			  method: "POST",
+			  url: "{{URL}}/users/register",
+			  data: { name: `${nameRegister.value}`,email: `${emailRegister.value}`,password: `${passwordRegister.value}` }
+			})
+		  	.done(function( errors ) {
+		  		$("#registerForm .alert").hide();
+		  		$("#registerForm input").removeClass('is-invalid');
+		  		$("#registerForm input").addClass('is-valid');
+		  		$("#registerForm .invalid-feedback").hide();
+	  			let json = JSON.parse(errors);
+	  			let valid = true;
+	  			for(let field in json){
+	  				valid = false;
+	  				if(field == 'general'){
+	  					$("#registerForm .alert").show().text(json[field]);
+	  				}else{
+		  				$("#"+field+"Register").removeClass('is-valid');
+		  				$("#"+field+"Register").addClass('is-invalid');
+		  				$("#"+field+"RegisterFeedback").show();
+		  				$("#"+field+"RegisterFeedback").text(json[field]);
+	  				}
+	  			}
+	  			if(valid){
+	  				location.reload();
+	  			}
+		  	});
+		}
+	</script>
 </body>
 </html>
