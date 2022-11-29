@@ -4,7 +4,34 @@ require_once 'models/User.php';
 class UsersController{
 
 	public static function login(){
+		$errors = [];
+		
+		$user = null;		
 
+		//Comprobar el email
+		$email = $_POST['email'] ?? "";
+		if(!$email){
+			$errors['email'] = 'El email es obligatorio';
+		}
+		else if(!$user = User::findByEmail($email)){
+			$errors['email'] = 'Usuario no encontrado';
+		}
+		if($user){
+			//Comprobar el password
+			$password = $_POST['password'] ?? "";
+			if(!$password){
+				$errors['password'] = 'El password es obligatorio';
+			}else if(!password_verify($_POST['password'], $user->getPassword())){
+				$errors['password'] = 'El password es incorrecto';
+			}
+			//Registrarlo
+			if(empty($errors)){
+				$_SESSION['auth'] = $user;
+			}
+
+		}
+
+		return json_encode($errors);
 	}
 
 	public static function register(){

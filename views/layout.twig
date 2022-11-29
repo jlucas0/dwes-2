@@ -33,7 +33,7 @@
 			    	</div>
 		      	{% else %}
 			      	<div>
-				      <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">Login</button>
+				      <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
 				      <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#registerModal">Registro</button>
 			    	</div>
 			    {% endif %}
@@ -43,27 +43,30 @@
 	</header>
 	<main>{% block content %}{% endblock %}</main>
 	<!-- Modal -->
-	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="loginModal" tabindex="-1">
 	  <div class="modal-dialog modal-dialog-centered">
 	    <div class="modal-content">
 	      	<div class="modal-header">
-	        	<h1 class="modal-title fs-5" id="exampleModalLabel">Inicio de sesión</h1>
+	        	<h1 class="modal-title fs-5">Login</h1>
 	        	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	      	</div>
-	      	<form method="POST">
-		      <div class="modal-body">
-			      <div class="mb-3">
-				    <label for="emailLogin" class="form-label">Email</label>
-				    <input name="email" type="email" class="form-control" id="emailLogin" required>
-				  </div>
-				  <div class="mb-3">
-				    <label for="loginPassword" class="form-label">Password</label>
-				    <input name="password" type="password" class="form-control" id="loginPassword" required>
-				  </div>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="submit" class="btn btn-primary">Acceder</button>
-		      </div>
+	      	<form method="POST" id="loginForm">
+		      	<div class="modal-body">
+		      		<div class="alert alert-danger" role="alert" style="display:none"></div>
+			      	<div class="mb-3">
+				   		<label for="emailLogin" class="form-label">Email</label>
+				    	<input name="email" type="email" class="form-control" id="emailLogin" required>
+				    	<div class="invalid-feedback" id="emailLoginFeedback" style="display:none"></div>
+				  	</div>
+				  	<div class="mb-3">
+				    	<label for="passwordLogin" class="form-label">Password</label>
+				    	<input name="password" type="password" class="form-control" id="passwordLogin" required>
+				    	<div class="invalid-feedback" id="passwordLoginFeedback" style="display:none"></div>
+				  	</div>
+			    </div>
+		      	<div class="modal-footer">
+			        <button class="btn btn-primary" type="submit">Acceder</button>
+			    </div>
 			</form>
 	    </div>
 	  </div>
@@ -128,6 +131,37 @@
 		  				$("#"+field+"Register").addClass('is-invalid');
 		  				$("#"+field+"RegisterFeedback").show();
 		  				$("#"+field+"RegisterFeedback").text(json[field]);
+	  				}
+	  			}
+	  			if(valid){
+	  				location.reload();
+	  			}
+		  	});
+		}
+
+		loginForm.onsubmit = function(e){
+			e.preventDefault();
+			$.ajax({
+			  method: "POST",
+			  url: "{{URL}}/users/login",
+			  data: { email: `${emailLogin.value}`,password: `${passwordLogin.value}` }
+			})
+		  	.done(function( errors ) {
+		  		$("#loginForm .alert").hide();
+		  		$("#loginForm input").removeClass('is-invalid');
+		  		$("#loginForm input").addClass('is-valid');
+		  		$("#loginForm .invalid-feedback").hide();
+	  			let json = JSON.parse(errors);
+	  			let valid = true;
+	  			for(let field in json){
+	  				valid = false;
+	  				if(field == 'general'){
+	  					$("#loginForm .alert").show().text(json[field]);
+	  				}else{
+		  				$("#"+field+"Login").removeClass('is-valid');
+		  				$("#"+field+"Login").addClass('is-invalid');
+		  				$("#"+field+"LoginFeedback").show();
+		  				$("#"+field+"LoginFeedback").text(json[field]);
 	  				}
 	  			}
 	  			if(valid){
