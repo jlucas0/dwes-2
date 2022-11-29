@@ -5,47 +5,94 @@
 {% block content %}
 
 	<article class="container mt-3">
-		<div class="row">
-			<div class="col-12 col-md-7 col-lg-8">
-				<table class="table table-hover">
-				  <thead>
-				    <tr>
-				      <th scope="col">#</th>
-				      <th scope="col">First</th>
-				      <th scope="col">Last</th>
-				      <th scope="col">Handle</th>
-				    </tr>
-				  </thead>
-				  <tbody>
-				    <tr>
-				      <th scope="row">1</th>
-				      <td>Mark</td>
-				      <td>Otto</td>
-				      <td>@mdo</td>
-				    </tr>
-				    <tr>
-				      <th scope="row">2</th>
-				      <td>Jacob</td>
-				      <td>Thornton</td>
-				      <td>@fat</td>
-				    </tr>
-				    <tr>
-				      <th scope="row">3</th>
-				      <td colspan="2">Larry the Bird</td>
-				      <td>@twitter</td>
-				    </tr>
-				  </tbody>
-				</table>
-			</div>
-			<div class="col-12 col-md-5 col-lg-4">
-				<div class="bg-dark text-white p-5">
-					<h4>Total: </h4>
-					<div class="mt-4 text-center">
-						<button class="btn btn-success">Realizar compra</button>
+		{% if articles %}
+			<div class="row">
+				<div class="col-12 col-md-7 col-lg-8">
+					<table class="table table-hover">
+					  <thead>
+					    <tr>
+					      <th scope="col">Artículo</th>
+					      <th scope="col">Precio Unidad</th>
+					      <th scope="col">Cantidad</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					  	{% for article in articles %}
+						    <tr id="row{{article.id}}">
+						      <td>{{article.title}}</td>
+						      <td>{{article.price}} €</td>
+						      <td><input type="number" step="1" class="amountSelector w-25 text-center" data-article="{{article.id}}" value="{{article.amount}}"></td>
+						    </tr>
+						{% endfor %}
+					  </tbody>
+					</table>
+				</div>
+				<div class="col-12 col-md-5 col-lg-4">
+					<div class="bg-dark text-white p-5">
+						<div id="priceInfo">
+							<h4>Total: <span id="totalPrice">{{price}}</span> €</h4>
+							<div class="mt-4 text-center">
+								<button class="btn btn-success">Realizar compra</button>
+							</div>
+						</div>
+						<div id="priceLoader" class="text-center" style="display: none;">
+							<div class="spinner-border text-success">
+							  <span class="visually-hidden">Loading...</span>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		{% else %}
+			<h5 class="text-center mt-4">Aún no hay artículos en el carrito.</h5>
+		{% endif %}
 	</article>
 
+{% endblock %}
+{% block extraScripts %}
+	<script type="text/javascript">
+		let selectorBlocked = false;
+		$(".amountSelector").change(function(){
+			let amount = $(this).val();
+			let article = $(this).data("article");
+			//Desactivar los selectores mientras se actualiza el precio
+			$(".amountSelector").attr("disabled",true);
+			//Mostrar el spinner
+			$("#priceInfo").hide();
+			$("#priceLoader").show();
+			//Enviar los datos al back
+			$.ajax({
+			  method: "POST",
+			  url: "{{URL}}/cart/update",
+			  data: { article: article, amount: amount }
+			})
+		  	.done(async function( price ) {
+
+		  		
+
+				await wait();
+
+		  		//Recargar el precio
+		  		
+		  		$("#totalPrice").text(price);
+
+				//Si la cantidad es 0, borrar la fila
+				if(amount == 0){
+					$("#row"+article).remove();
+				}
+				//Reactivar los selectores
+				$(".amountSelector").attr("disabled",false);
+				$("#priceInfo").show();
+				$("#priceLoader").hide();
+
+				//Si el precio es 0, se recarga la página
+				if(price == "0"){
+					location.reload();
+				}
+		  	});
+		});
+		async function wait() {
+		  await new Promise(resolve => setTimeout(resolve, 2000));
+		}
+	</script>
 {% endblock %}

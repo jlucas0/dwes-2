@@ -33,7 +33,6 @@ $param = null;
 //Lectura de los parámetros de ruta, que el htaccess incluye en el valor path
 if(isset($_GET['path'])){
 	$path = explode("/",$_GET['path']);
-
 	if(isset($path[0])){
 		$controller = $path[0];
 		if(isset($path[1])){
@@ -44,6 +43,7 @@ if(isset($_GET['path'])){
 		}
 	}
 }
+
 
 //Se le otorgan a Twig las variables de las rutas para que pinte el menú
 $twig->addGlobal("CONTROLLER",$controller);
@@ -57,7 +57,7 @@ if(class_exists($controller)){
 	}
 }
 //Si es algo incorrecto, carga por defecto la portada
-if(empty($response)){
+if(empty($response) && $response !== 0){
 	redirect();
 }
 

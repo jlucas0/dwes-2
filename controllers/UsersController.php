@@ -27,6 +27,11 @@ class UsersController{
 			//Registrarlo
 			if(empty($errors)){
 				$_SESSION['auth'] = $user;
+				//Pasar el carrito de invitado a este usuario
+				if(isset($_SESSION['carts']['guest'])){
+					$_SESSION['carts'][$user->getId()] = $_SESSION['carts']['guest'];
+					unset($_SESSION['carts']['guest']);
+				}
 			}
 
 		}
@@ -71,6 +76,11 @@ class UsersController{
 				$errors['general'] = "Se ha producido un error al realizar el registro";
 			}else{
 				$_SESSION['auth'] = $user;
+				//Pasar el carrito de invitado a este usuario
+				if(isset($_SESSION['carts']['guest'])){
+					$_SESSION['carts'][$user->getId()] = $_SESSION['carts']['guest'];
+					unset($_SESSION['carts']['guest']);
+				}
 			}
 		}
 
@@ -79,7 +89,7 @@ class UsersController{
 
 	public static function logout(){
 		if(isset($_SESSION['auth'])){
-			session_destroy();
+			unset($_SESSION['auth']);
 		}
 		header("Location: ".URL);
 	}

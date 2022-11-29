@@ -22,9 +22,11 @@
 			        <li class="nav-item">
 			          <a class="nav-link {% if CONTROLLER=='cart' and ACTION=='index' %}active{% endif %}" href="{{URL}}/cart">Carrito {% if cartCount %}<span class="badge text-bg-primary">{{cartCount}}</span>{% endif %}</a>
 			        </li>
-			        <li class="nav-item">
-			          <a class="nav-link {% if CONTROLLER=='purchases' and ACTION=='index' %}active{% endif %}" href="{{URL}}/purchases">Mis Compras</a>
-			        </li>
+			        {% if USER %}
+				        <li class="nav-item">
+				          <a class="nav-link {% if CONTROLLER=='purchases' and ACTION=='index' %}active{% endif %}" href="{{URL}}/purchases">Mis Compras</a>
+				        </li>
+				    {% endif %}
 		      	</ul>
 		      	{% if USER %}
 		      		<div>
@@ -170,5 +172,6 @@
 		  	});
 		}
 	</script>
+	{% block extraScripts %}{% endblock %}
 </body>
 </html>
