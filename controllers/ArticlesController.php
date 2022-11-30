@@ -1,8 +1,10 @@
 <?php
 require_once 'models/Article.php';
+require_once 'controllers/Controller.php';
 
-class ArticlesController{
+class ArticlesController implements Controller{
 
+	//Muestra el listado de artículos para el catálogo frontal
 	public static function index(){
 
 		$articles = Article::list();
@@ -12,6 +14,7 @@ class ArticlesController{
         );
 	}
 
+	//Muestra los detalles de un artículo concreto
 	public static function details($id){
 
 		//Obtener el artículo
@@ -27,4 +30,9 @@ class ArticlesController{
 		exit;
 	}
 
+	/*TODO - para el CRUD */
+	public static function create(){}
+	public static function edit(){}
+	public static function update(){}
+	public static function delete(){}
 }

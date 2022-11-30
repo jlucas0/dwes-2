@@ -4,30 +4,33 @@
 
 {% block content %}
 	<article class="container-sm mt-3">
-		<div class="accordion" id="purchases">
-			{% for purchase in purchases %}
-			  <div class="accordion-item">
-			    <h2 class="accordion-header">
-			      <button class="accordion-button {% if loop.index > 1 %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{loop.index}}">
-			        {{purchase.date|date('d/m/Y h:i:s')}} - {{purchase.getPrice()}} €
-			      </button>
-			    </h2>
-			    <div id="collapse{{loop.index}}" class="accordion-collapse collapse {% if loop.index == 1 %}show{% endif %}" data-bs-parent="#purchases">
-			      <div class="accordion-body">
-			        <ul class="list-group">
-			        	{% for article in purchase.articles %}
-					  		<li class="list-group-item">
-					  			<img src="{{URL}}/resources/images/{{article.picture}}" width="100">
-					  			{{article.title}} - {{article.price}} € x {{article.amount}}
-					  		</li>
-					  	{% endfor %}
-					</ul>
-			      </div>
-			    </div>
-			  </div>
-			{% endfor %}
-		</div>
-		
+		{% if purchases %}
+			<div class="accordion" id="purchases">
+				{% for purchase in purchases %}
+				  <div class="accordion-item">
+				    <h2 class="accordion-header">
+				      <button class="accordion-button {% if loop.index > 1 %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{loop.index}}">
+				        {{purchase.date|date('d/m/Y h:i:s')}} - {{purchase.getPrice()}} €
+				      </button>
+				    </h2>
+				    <div id="collapse{{loop.index}}" class="accordion-collapse collapse {% if loop.index == 1 %}show{% endif %}" data-bs-parent="#purchases">
+				      <div class="accordion-body">
+				        <ul class="list-group">
+				        	{% for article in purchase.articles %}
+						  		<li class="list-group-item">
+						  			<img src="{{URL}}/resources/images/{{article.picture}}" width="100">
+						  			{{article.title}} - {{article.price}} € x {{article.amount}}
+						  		</li>
+						  	{% endfor %}
+						</ul>
+				      </div>
+				    </div>
+				  </div>
+				{% endfor %}
+			</div>
+		{% else %}
+			<h5 class="text-center mt-4">Aún no se han realizado compras.</h5>
+		{% endif %}
 	</article>
 
 {% endblock %}

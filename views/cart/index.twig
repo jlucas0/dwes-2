@@ -33,7 +33,7 @@
 							<h4>Total: <span id="totalPrice">{{price}}</span> €</h4>
 							<div class="mt-4 text-center">
 								{% if USER %}
-								<a href="{{URL}}/purchases/new">
+								<a href="{{URL}}/purchases/create">
 								{% endif %}
 									<button class="btn btn-success" {% if not USER %} data-bs-toggle="modal" data-bs-target="#loginModal"
 									onclick="fromPurchase = true"

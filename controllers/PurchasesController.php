@@ -1,8 +1,10 @@
 <?php
 require_once 'models/Purchase.php';
+require_once 'controllers/Controller.php';
 
-class PurchasesController{
+class PurchasesController implements Controller{
 
+	//Listado de compras realizadas por el usuario actual
 	public static function index(){
 
 		//Verificar quién es
@@ -15,13 +17,13 @@ class PurchasesController{
 		}
 	}
 
-	public static function new(){
+	//Registra una nueva compra
+	public static function create(){
 		//Ver quién es
 		if(isset($_SESSION['auth'])){
 
 			//Generar la venta
-			$purchase = new Purchase();
-			$purchase->setUser($_SESSION['auth']->getId());
+			$purchase = new Purchase($_SESSION['auth']->getId());
 			//Procesar el carrito actual
 			foreach($_SESSION['carts'][$GLOBALS['cartId']] as $articleId => $amount){
 				$article = Article::find($articleId);
@@ -38,5 +40,10 @@ class PurchasesController{
 		}
 		
 	}
+
+	//No relevantes
+	public static function edit(){}
+	public static function update(){}
+	public static function delete(){}
 
 }

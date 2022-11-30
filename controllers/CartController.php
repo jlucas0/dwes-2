@@ -1,8 +1,10 @@
 <?php
 require_once 'models/Article.php';
+require_once 'controllers/Controller.php';
 
-class CartController{
+class CartController implements Controller{
 
+	//Muestra el carrito de la sesión actual con los artículos añadidos
 	public static function index(){
 
 		$articles = [];
@@ -26,6 +28,7 @@ class CartController{
         );
 	}
 
+	//Introduce un artículo nuevo al carrito
 	public static function add($id){
 		//Buscar que exista el producto
 		$article = Article::find($id);
@@ -52,6 +55,7 @@ class CartController{
 		}
 	}
 
+	//Actualiza las cantidades de los artículos, enviados por POST, y devuelve el precio actualizado
 	public static function update(){
 		//Buscar que exista el producto
 		$article = Article::find($_POST['article']);
@@ -74,5 +78,10 @@ class CartController{
 		}
 		return $price;
 	}
+
+	//No relevantes
+	public static function create(){}
+	public static function edit(){}
+	public static function delete(){}
 
 }

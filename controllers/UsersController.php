@@ -1,8 +1,10 @@
 <?php
 require_once 'models/User.php';
+require_once 'controllers/Controller.php';
 
-class UsersController{
+class UsersController implements Controller{
 
+	//Inicia sesión
 	public static function login(){
 		$errors = [];
 		
@@ -39,6 +41,7 @@ class UsersController{
 		return json_encode($errors);
 	}
 
+	//Registra un nuevo usuario
 	public static function register(){
 		$errors = [];
 		//Comprobar el nombre
@@ -75,6 +78,7 @@ class UsersController{
 			if($result !== true){
 				$errors['general'] = "Se ha producido un error al realizar el registro";
 			}else{
+				$user = User::findByEmail($email);
 				$_SESSION['auth'] = $user;
 				//Pasar el carrito de invitado a este usuario
 				if(isset($_SESSION['carts']['guest'])){
@@ -87,11 +91,25 @@ class UsersController{
 		return json_encode($errors);
 	}
 
+	//Cierra sesión del usuario actual
 	public static function logout(){
 		if(isset($_SESSION['auth'])){
 			unset($_SESSION['auth']);
 		}
 		header("Location: ".URL);
 	}
+
+	//Alias de register
+	public static function create(){
+		self::register();
+	}
+
+	//TODO - para el CRUD
+	public static function edit(){}
+	public static function update(){}
+	public static function delete(){}
+
+	//No relevante
+	public static function index(){}
 
 }

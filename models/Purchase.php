@@ -7,6 +7,10 @@ class Purchase implements Model{
 
 	private $id, $date, $user, $articles = [];
 
+	public function __construct($userId = null){
+		$this->user = $userId;
+	}
+
 	public static function list(){
 		$db = Database::connect();
 
