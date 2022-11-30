@@ -1,0 +1,22 @@
+{% extends "admin/layout.twig" %}
+
+{% block title %}Admin Login{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block content %}
+		{% if error %}
+			<div class="mt-2 col-12 alert alert-danger">{{error}}</div>
+		{% endif %}
+		<form method="post" action="{{URL}}/admin/access" class="mt-5 col-12 col-sm-8 offset-sm-2 col-lg-6 offset-lg-3">
+			<div class="mb-3">
+			    <label for="email" class="form-label">Email</label>
+			    <input type="email" class="form-control" name="email" id="email" required>
+			  </div>
+			  <div class="mb-3">
+			    <label for="password" class="form-label">Contraseña</label>
+			    <input type="password" class="form-control" name="password" id="password" required>
+			  </div>
+			  <button type="submit" class="btn btn-primary">Acceder</button>
+		</form>
+{% endblock %}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{% block title %}{% endblock %} - TiendaTiendas</title>
+	<link rel="stylesheet" type="text/css" href="{{URL}}\resources\bootstrap-5.2.2-dist\css\bootstrap.min.css">
+</head>
+<body>
+	{% block header %}
+	<header class="p-3 bg-secondary text-white">
+	    <nav class="navbar navbar-expand-md">
+		<div class="container-fluid">
+		    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+		      <span class="navbar-toggler-icon"></span>
+		    </button>
+		    <div class="collapse navbar-collapse" id="navbarMenu">
+		      	<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+			        <li class="nav-item">
+			          <a class="nav-link {% if ACTION =='index' %}active{% endif %}"href="{{URL}}/admin">Artículos</a>
+			        </li>
+			        <li class="nav-item">
+			          <a class="nav-link {% if ACTION=='users' %}active{% endif %}" href="{{URL}}/admin/users">Usuarios</a>
+			        </li>
+		      	</ul>
+	      		<div>
+			      <span class="me-5">{{USER.name}}</span>
+			      <a href="{{URL}}/admin/logout"><button class="btn btn-success">Salir</button></a>
+		    	</div>
+		    </div>
+		  </div>
+		</nav>
+	</header>
+	{% endblock %}
+	<main class="container">{% block content %}{% endblock %}</main>
+	<script type="text/javascript" src="{{URL}}/resources/bootstrap-5.2.2-dist/js/bootstrap.min.js"></script>
+</body>
+</html>

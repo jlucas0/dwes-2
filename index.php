@@ -15,6 +15,7 @@ require 'controllers/UsersController.php';
 require 'controllers/ArticlesController.php';
 require 'controllers/CartController.php';
 require 'controllers/PurchasesController.php';
+require 'controllers/AdminController.php';
 
 session_start();
 //Si hay usuario registrado, se le pasa a twig para que pinte los datos necesarios
