@@ -10,7 +10,7 @@ class Purchase implements Model{
 	public static function list(){
 		$db = Database::connect();
 
-		$result = $db->query("SELECT * FROM purchases WHERE user_id = $_SESSION[auth]->getId() ORDER BY date DESC");
+		$result = $db->query("SELECT * FROM purchases WHERE user_id = ".$_SESSION['auth']->getId()." ORDER BY date DESC");
 
 		$data = [];
 
@@ -21,11 +21,10 @@ class Purchase implements Model{
 			$purchase = new Purchase();
 			$purchase->setId($row->id);
 			$purchase->setDate(new DateTime($row->date));
-			$purchase->setUser($row->user);
+			$purchase->setUser($row->user_id);
 			$lines = $db->query("SELECT purchased_articles.*,articles.title, articles.picture FROM purchased_articles JOIN articles ON article_id = id WHERE purchase_id = $row->id");
 			while($line = $lines->fetch_object()){
 				$article = new Article();
-				$article->setId($line->id);
 				$article->setTitle($line->title);
 				$article->setPicture($line->picture);
 				$article->setPrice($line->price);
@@ -130,5 +129,12 @@ class Purchase implements Model{
 		$this->articles[] = $article;
 	}
 
-	
+	public function getPrice(){
+		$price = 0;
+		foreach($this->articles as $article){
+			$price += $article->getPrice()*$article->amount;
+		}
+
+		return $price;
+	}
 }

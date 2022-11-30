@@ -6,13 +6,13 @@ class PurchasesController{
 	public static function index(){
 
 		//Verificar quién es
+		if($_SESSION['auth']){
 
-		$purchases = [];
-
-		return $GLOBALS["twig"]->render(
-            'purchases/index.twig', 
-            ['purchases' => $purchases]
-        );
+			return $GLOBALS["twig"]->render(
+	            'purchases/index.twig', 
+	            ['purchases' => Purchase::list()]
+	        );
+		}
 	}
 
 	public static function new(){
