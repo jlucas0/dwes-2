@@ -20,7 +20,7 @@
 			          <a class="nav-link {% if CONTROLLER=='articles' and ACTION=='index' %}active{% endif %}"href="{{URL}}/articles">Catálogo</a>
 			        </li>
 			        <li class="nav-item">
-			          <a class="nav-link {% if CONTROLLER=='cart' and ACTION=='index' %}active{% endif %}" href="{{URL}}/cart">Carrito {% if cartCount %}<span class="badge text-bg-primary">{{cartCount}}</span>{% endif %}</a>
+			          <a class="nav-link {% if CONTROLLER=='cart' and ACTION=='index' %}active{% endif %}" href="{{URL}}/cart">Carrito {% if CART_COUNT %}<span class="badge text-bg-primary">{{CART_COUNT}}</span>{% endif %}</a>
 			        </li>
 			        {% if USER %}
 				        <li class="nav-item">
@@ -110,6 +110,8 @@
 	<script type="text/javascript" src="{{URL}}/resources/jquery-3.6.1.min.js"></script>
 	<script type="text/javascript">
 
+		var fromPurchase = false;
+
 		registerForm.onsubmit = function(e){
 			e.preventDefault();
 			$.ajax({
@@ -167,7 +169,13 @@
 	  				}
 	  			}
 	  			if(valid){
-	  				location.reload();
+	  				//Si hizo login desde el carrito para hacer la compra
+	  				if(fromPurchase){
+	  					location.href = "{{URL}}/purchases/new";
+	  				}
+	  				else{
+	  					location.reload();
+	  				}
 	  			}
 		  	});
 		}

@@ -18,8 +18,15 @@ require 'controllers/PurchasesController.php';
 
 session_start();
 //Si hay usuario registrado, se le pasa a twig para que pinte los datos necesarios
+$cartId = "guest";
 if(isset($_SESSION['auth'])){
 	$twig->addGlobal("USER",$_SESSION['auth']);
+	$cartId = $_SESSION['auth']->getId();
+}
+
+//Indicarle a twig cuántos artículos hay en el carro para mostrar el icono
+if(isset($_SESSION['carts']) && isset($_SESSION['carts'][$cartId])){
+	$twig->addGlobal("CART_COUNT",count($_SESSION['carts'][$cartId]));
 }
 
 //Generar la respuesta según el controlador solicitado y la acción

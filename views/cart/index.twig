@@ -32,7 +32,15 @@
 						<div id="priceInfo">
 							<h4>Total: <span id="totalPrice">{{price}}</span> €</h4>
 							<div class="mt-4 text-center">
-								<button class="btn btn-success">Realizar compra</button>
+								{% if USER %}
+								<a href="{{URL}}/purchases/new">
+								{% endif %}
+									<button class="btn btn-success" {% if not USER %} data-bs-toggle="modal" data-bs-target="#loginModal"
+									onclick="fromPurchase = true"
+									{% endif %}>Realizar compra</button>
+								{% if USER %}
+								</a>
+								{% endif %}
 							</div>
 						</div>
 						<div id="priceLoader" class="text-center" style="display: none;">
@@ -70,7 +78,7 @@
 
 		  		
 
-				await wait();
+				//await wait();
 
 		  		//Recargar el precio
 		  		
@@ -91,6 +99,7 @@
 				}
 		  	});
 		});
+		//Ésta es solo para simular la espera, y ver que aparece el spinner de carga
 		async function wait() {
 		  await new Promise(resolve => setTimeout(resolve, 2000));
 		}

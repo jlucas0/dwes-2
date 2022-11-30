@@ -13,12 +13,6 @@
     # No voy a poder cargar un directorio (!-d) ni un fichero (!-f) cualquiera
     RewriteCond %{SCRIPT_FILENAME} !-d
     RewriteCond %{SCRIPT_FILENAME} !-f
-
-    # Reglas de reescritura
-    # Reescribe a este formato:
-    # (.*) quiere decir punto cualquier cosa, por tanto 
-    # El primer (.*) implica introducir el contenido de controller ($1) 
-    # El segundo (.*) implica introducir el contenido de action ($2)
     
     RewriteRule ^(.*)$ /php-dwes/index.php?path=$1 [NC,L,QSA]
 </IfModule>
