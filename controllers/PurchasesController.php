@@ -25,7 +25,7 @@ class PurchasesController implements Controller{
 			//Generar la venta
 			$purchase = new Purchase($_SESSION['auth']->getId());
 			//Procesar el carrito actual
-			foreach($_SESSION['carts'][$GLOBALS['cartId']] as $articleId => $amount){
+			foreach($_SESSION['carts'][CARTID] as $articleId => $amount){
 				$article = Article::find($articleId);
 				$article->amount = $amount;
 				//Introducir las líneas
@@ -33,7 +33,7 @@ class PurchasesController implements Controller{
 			}
 			$purchase->save();
 			//Borrar el carro
-			unset($_SESSION['carts'][$GLOBALS['cartId']]);
+			unset($_SESSION['carts'][CARTID]);
 			//Redirigir al listado de compras
 			header("Location:".URL."/purchases");
 			exit;

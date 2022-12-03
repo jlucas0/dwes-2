@@ -12,8 +12,8 @@ class CartController implements Controller{
 
 		if(isset($_SESSION['carts'])){
 			
-			if(isset($_SESSION['carts'][$GLOBALS['cartId']])){
-				foreach($_SESSION['carts'][$GLOBALS['cartId']] as $id=>$amount){
+			if(isset($_SESSION['carts'][CARTID])){
+				foreach($_SESSION['carts'][CARTID] as $id=>$amount){
 					$article = Article::find($id);
 					$article->amount = $amount;
 					$price += $article->getPrice() * $amount;
@@ -37,17 +37,17 @@ class CartController implements Controller{
 			if(!isset($_SESSION['carts'])){
 				$_SESSION['carts'] = [];
 			}
-			if(!isset($_SESSION['carts'][$GLOBALS['cartId']])){
-				$_SESSION['carts'][$GLOBALS['cartId']] = [];
+			if(!isset($_SESSION['carts'][CARTID])){
+				$_SESSION['carts'][CARTID] = [];
 			}
 
 			//Si ya está el artículo, se incrementa en una unidad
-			if(isset($_SESSION['carts'][$GLOBALS['cartId']][$id])){
-				$_SESSION['carts'][$GLOBALS['cartId']][$id]++;
+			if(isset($_SESSION['carts'][CARTID][$id])){
+				$_SESSION['carts'][CARTID][$id]++;
 			}
 			//Si no, se añade
 			else{
-				$_SESSION['carts'][$GLOBALS['cartId']][$id] = 1;
+				$_SESSION['carts'][CARTID][$id] = 1;
 			}
 			//Redirigir a la vista del carro
 			header("Location: ".URL."/cart");
@@ -64,14 +64,14 @@ class CartController implements Controller{
 			
 			//Si la cantidad es 0, eliminar el artículo
 			if($_POST['amount'] == 0){
-				unset($_SESSION['carts'][$GLOBALS['cartId']][$article->getId()]);
+				unset($_SESSION['carts'][CARTID][$article->getId()]);
 			}
 			//Si no, actualizar la cantidad
 			else{
-				$_SESSION['carts'][$GLOBALS['cartId']][$article->getId()] = $_POST['amount'];
+				$_SESSION['carts'][CARTID][$article->getId()] = $_POST['amount'];
 			}
 
-			foreach($_SESSION['carts'][$GLOBALS['cartId']] as $id=>$amount){
+			foreach($_SESSION['carts'][CARTID] as $id=>$amount){
 				$article = Article::find($id);
 				$price += $article->getPrice() * $amount;
 			}
