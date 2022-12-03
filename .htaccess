@@ -3,11 +3,8 @@
 <IfModule mod_rewrite.c>
     # Activar rewrite
     RewriteEngine on
-    #ErrorDocument 404 http://localhost/proyectos/2DAW-CLASE-PHP/templates/error/404.twig
+    ErrorDocument 404 http://localhost/php-dwes/errors/404.html
 
-    #ErrorDocument 403 http://localhost/proyectos/2DAW-CLASE-PHP/templates/error/403.twig
-
-    #ErrorDocument 500 http://localhost/proyectos/2DAW-CLASE-PHP/templates/error/500.twig
     RewriteRule ^(resources)($|/) - [L]
     
     # No voy a poder cargar un directorio (!-d) ni un fichero (!-f) cualquiera
